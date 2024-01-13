@@ -10,21 +10,30 @@ describe("👷🏽‍♂️ - SimpleStorage Unit Testing", () => {
         const [owner, otherAccount] = await ethers.getSigners();
         const simpleStorageFactory = await ethers.getContractFactory("SimpleStorage");
         const simpleStorage = await simpleStorageFactory.deploy();
-
+        // console.log("---------------------------------------")
+        // console.log("🎖️ - SimpleStorage ", simpleStorage)
+        // console.log("---------------------------------------")
         return {simpleStorage, owner, otherAccount};
     }
 
     describe("Deployment", async () => {
         it("Should set message to 'Chainlink Contract!!'", async () => {
             const {simpleStorage, owner, otherAccount} = await deployOneYearLockFixture();
-            console.log("🎖️ - SimpleStorage ", simpleStorage)
             const expectedMsg: string = "Chainlink Contract!!"
+            const actualMsg = await simpleStorage.getMessage();
+            expect(actualMsg).to.be.equal(expectedMsg);
+        })
+
+        it("Should set message to new message", async () => {
+            const {simpleStorage, owner, otherAccount} = await deployOneYearLockFixture();
+            const expectedMsg: string = "Chainlink Contract!!"
+            await simpleStorage.setMessage(expectedMsg);
             const actualMsg = await simpleStorage.getMessage();
             expect(actualMsg).to.be.equal(expectedMsg);
         })
     });
 
-    describe("Withdrawals", () => {
-
-    });
+    // describe("Withdrawals", () => {
+    //
+    // });
 });
