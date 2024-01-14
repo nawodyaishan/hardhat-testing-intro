@@ -13,6 +13,8 @@ contract SimpleStorage {
     // Note: While marked private, it is still publicly visible on the blockchain and not hidden.
     string private s_message;
 
+    event MessageChanged(string newMessage);
+
     /**
      * @dev Constructor that sets the initial message.
      * The constructor is a special function that is only called once when the contract is deployed.
@@ -38,6 +40,8 @@ contract SimpleStorage {
      * @param newMessage - The new message to be stored.
      */
     function setMessage(string memory newMessage) public {
+        require(bytes(newMessage).length > 0, "Empty string are not allowed");
         s_message = newMessage;
+        emit MessageChanged(newMessage);
     }
 }
