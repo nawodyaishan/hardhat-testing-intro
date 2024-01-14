@@ -39,7 +39,9 @@ describe("👷🏽‍♂️ - SimpleStorage Unit Testing", () => {
         it("Should emit event when set message called", async () => {
             const {simpleStorage} = await deploySimpleStorageFixture();
             const newMessage = "New Message";
-            await expect(simpleStorage.setMessage(newMessage)).to.emit(simpleStorage, "MessageChanged").withArgs(newMessage);
+            await expect(simpleStorage.setMessage(newMessage))
+                .to.emit(simpleStorage, "MessageChanged")
+                .withArgs(newMessage);
             const actualMsg = await simpleStorage.getMessage();
             expect(actualMsg).to.equal(newMessage);
 
@@ -49,7 +51,8 @@ describe("👷🏽‍♂️ - SimpleStorage Unit Testing", () => {
     describe("Failures", () => {
         // Test to ensure that only the owner can set a new message.
         it("Should revert if caller is not the owner when setting message", async () => {
-            const {simpleStorage, otherAccount} = await deploySimpleStorageFixture();
+            const {simpleStorage, otherAccount} =
+                await deploySimpleStorageFixture();
             const invalidMessage = "Invalid Message";
             await expect(simpleStorage.connect(otherAccount).setMessage(invalidMessage))
                 .to.be.revertedWith("Caller is not the owner");
@@ -59,7 +62,8 @@ describe("👷🏽‍♂️ - SimpleStorage Unit Testing", () => {
 
         // Test to ensure that setting an empty message is reverted.
         it("Should revert when setting an empty string as the message", async () => {
-            const {simpleStorage, owner} = await deploySimpleStorageFixture();
+            const {simpleStorage, owner} =
+                await deploySimpleStorageFixture();
             const emptyMessage = "";
             await expect(simpleStorage.setMessage(emptyMessage))
                 .to.be.revertedWith("Empty strings are not allowed");
