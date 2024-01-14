@@ -34,6 +34,16 @@ describe("👷🏽‍♂️ - SimpleStorage Unit Testing", () => {
             const actualMsg = await simpleStorage.getMessage();
             expect(actualMsg).to.equal(newMessage);
         });
+
+        // Test to check the event functionality.
+        it("Should emit event when set message called", async () => {
+            const {simpleStorage} = await deploySimpleStorageFixture();
+            const newMessage = "New Message";
+            await expect(simpleStorage.setMessage(newMessage)).to.emit(simpleStorage, "MessageChanged").withArgs(newMessage);
+            const actualMsg = await simpleStorage.getMessage();
+            expect(actualMsg).to.equal(newMessage);
+
+        });
     });
 
     describe("Failures", () => {
